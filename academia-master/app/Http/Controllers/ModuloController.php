@@ -25,7 +25,7 @@ class ModuloController extends Controller
      */
     public function create()
     {
-        //
+        return view('modulos.create');
     }
 
     /**
@@ -36,7 +36,19 @@ class ModuloController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //validaciones genericas
+        $request->validate([
+            'nombre'=>['required'],
+            'horas'=>['required']
+        ]);
+        //cojo los datos por que voy a modificar el request 
+        //voy a poner nom y ape la primera letra en mayusculas
+        $modulo=new Modulo();
+        $modulo->nombre=ucwords($request->nombre);
+        $modulo->horas=ucwords($request->horas);
+        $modulo->save();
+        
+        return redirect()->route('modulos.index')->with("mensaje", "Modulo Guardado");
     }
 
     /**
@@ -47,7 +59,7 @@ class ModuloController extends Controller
      */
     public function show(Modulo $modulo)
     {
-        //
+        return view('modulos.detalle', compact('modulo'));
     }
 
     /**
@@ -58,7 +70,7 @@ class ModuloController extends Controller
      */
     public function edit(Modulo $modulo)
     {
-        //
+        return view('modulos.edit', compact('modulo'));
     }
 
     /**
@@ -70,7 +82,18 @@ class ModuloController extends Controller
      */
     public function update(Request $request, Modulo $modulo)
     {
-        //
+        $request->validate([
+            'nombre'=>['required'],
+            'horas'=>['required']
+        ]);
+
+        $modulo->nombre=ucwords($request->nombre);
+        $modulo->horas=ucwords($request->horas);
+
+        //Guardamos el fichero
+        $modulo->update($request->all());
+
+        return redirect()->route('modulos.index')->with('mensaje', 'Modulo Modificado');
     }
 
     /**
@@ -81,6 +104,7 @@ class ModuloController extends Controller
      */
     public function destroy(Modulo $modulo)
     {
-        //
+       $modulo->delete();
+       return redirect()->route('modulos.index')->with('mensaje', 'Modulo borrado correctamente');
     }
 }

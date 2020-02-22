@@ -3,10 +3,10 @@
 Academia s.a.
 @endsection
 @section('cabecera')
-Gestion de Alumnos
+Gestion de Modulos
 @endsection
 @section('contenido')
-@if($text=Session::get('mnesaje'))
+@if($text=Session::get('mensaje'))
 <p class="alert alert-danger my-3">{{$text}}</p>
 @endif
 <a href="{{route('modulos.create')}}" class="btn btn-info mb-3"><i class="fa fa-plus"></i> Crear Modulo</a>
